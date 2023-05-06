@@ -1,0 +1,99 @@
+[users] {bgcolor: "#38a1db"}
+  *id {label: "bigint,not null"}
+  emails_id {label: "bigint,not null, FK(emails)"}
+  user_name {label: "varchar,not not null, uniq"}
+  tel_number {label: "bigint, null,uniq"}
+  label_name {label: "varchar, not null"}
+  user_introduction {label: "varchar, null"}
+  user_live {label: "varchar, null"}
+  web_link {label: "varchar, null"}
+  date_of_birth {label: "datatime, not null"}
+  profile_image {label: "BLOB, null"}
+  avatar_image {label: "BLOB, null"}
+  created_at {label: "datatime, not null"}
+  updated_at {label: "datatime, not null"}
+
+ [emails] {bgcolor: "#e7609e"}
+   *id {label: "bigint, not null"}
+   user_email {label: "bigint, not null, uniq"}
+   created_at {label: "datatime, not null"}
+   updated_at {label: "datatime, not null"}
+
+ [tweet_posts] {bgcolor: "#aacf53"}
+   *id {label: "bigint, not null"}
+   user_id {label: "bigint, not null, FK(users)"}
+   tweet {label: "varchar(140), not null"}
+   created_at {label: "datatime, not null" }
+   updated_at {label: "datatime, not null"}
+
+ [good_tweets] {bgcolor: "#aacf53"}
+   *id {label: "bigint, not null"}
+   user_id {label: "bigint, not null, FK(users)"}
+   show_tweet_id {label: "bigint, not null, FK(show_tweets)"}
+   good_buton {label: "bigint, not null"}
+   created_at {label: "datatime, not null"}
+   updated_at {label: "datatime, not null"}
+
+ [show_tweets] {bgcolor: "#f5b1aa"}
+   *id {label: "bigint, not null"}
+   tweet_id {label: "bigint, not null"}
+   show_tweet {label: "varchar(140), not null"}
+   created_at {label: "datatime, not null"}
+   updated_at {label: "datatime, not null"}
+
+ [bookmarks] {bgcolor: "#aacf53"}
+   *id {label: "bigint, not null"}
+   user_id {label: "bigint, not null, FK(users)"}
+   show_tweet_id {label: "bigint, not null, FK(show_tweets)"}
+   created_at {label: "datatime, not null"}
+   updated_at {label: "datatime, not null"}
+
+ [re_tweets] {bgcolor: "#f5b1aa"}
+   *id {label: "bigint, not null"}
+   user_id {label: "biginti, not null, FK(users)"}
+   show_tweet_id {label: "bigint, not null, FK(show_tweets)"}
+   re_tweet {label: "bigint, not null"}
+   created_at {label: "datatime, not null"}
+   updated_at {label: "datatime, not null"}
+
+ [follows] {bgcolor: "#aacf53"}
+   *id {label: "bigint, not null"}
+   user_id {label: "bigint, not nul, FK(users)"}
+   following_user_id {label: "bigint, not null"}
+   created_at {label: "datatime, not null"}
+   updated_at {label: "datatime, not null"}
+
+ [announces] {bgcolor: "#7ebea5"}
+   *id {label: "bigint, not null"}
+   user_id {label: "bigint,not null, FK(users)"}
+   type {label: "varchar, not null"}
+   created_at {label: "datatime, not null"}
+   updated_at {label: "datatime, not null"}
+
+ [dms] {bgcolor: "#f5b1aa"}
+   *id {label: "bigint, not null"}
+   user_id {label: "bigint, not null, FK(users)"}
+   followed_user_id {label: "bigint, not null, FK(follows)"}
+   mail {label: "varchar, not null"}
+   created_at {label: "datatime, not null"}
+   updated_at {label: "datatime,not null"}
+
+# Cardinality    Syntax
+# 0 or 1         ?
+# exactly 1      1
+# 0 or more      *
+# 1 or more      +
+
+ emails 1--* users
+ users *--1 tweet_posts
+ users *--1 show_tweets
+ users *--1 bookmarks
+ bookmarks *--1 show_tweets
+ show_tweets *--1 re_tweets
+ users *--1 re_tweets
+ good_tweets *--1 show_tweets
+ users *--1 good_tweets
+ users *--1 dms
+ users *--1 follows
+ follows *--1 dms
+ users *--1 announces
