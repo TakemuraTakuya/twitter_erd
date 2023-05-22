@@ -1,6 +1,6 @@
 [users] {bgcolor: "#38a1db"}
   *id {label: "bigint,not null"}
-  emails_id {label: "bigint,not null, FK(emails)"}
+  user_email {label: "bigint, not null, uniq"}
   user_name {label: "varchar,not not null, uniq"}
   tel_number {label: "bigint, null,uniq"}
   label_name {label: "varchar, not null"}
@@ -13,12 +13,6 @@
   created_at {label: "datatime, not null"}
   updated_at {label: "datatime, not null"}
 
- [emails] {bgcolor: "#e7609e"}
-   *id {label: "bigint, not null"}
-   user_email {label: "bigint, not null, uniq"}
-   created_at {label: "datatime, not null"}
-   updated_at {label: "datatime, not null"}
-
  [tweet_posts] {bgcolor: "#aacf53"}
    *id {label: "bigint, not null"}
    user_id {label: "bigint, not null, FK(users)"}
@@ -29,29 +23,29 @@
  [good_tweets] {bgcolor: "#aacf53"}
    *id {label: "bigint, not null"}
    user_id {label: "bigint, not null, FK(users)"}
-   show_tweet_id {label: "bigint, not null, FK(show_tweets)"}
+   tweet_alls_id {label: "bigint, not null, FK(tweet_alls)"}
    good_buton {label: "bigint, not null"}
    created_at {label: "datatime, not null"}
    updated_at {label: "datatime, not null"}
 
- [show_tweets] {bgcolor: "#f5b1aa"}
+ [tweet_alls] {bgcolor: "#f5b1aa"}
    *id {label: "bigint, not null"}
    tweet_id {label: "bigint, not null"}
-   show_tweet {label: "varchar(140), not null"}
+   another_user_tweet {label: "varchar(140), not null"}
    created_at {label: "datatime, not null"}
    updated_at {label: "datatime, not null"}
 
  [bookmarks] {bgcolor: "#aacf53"}
    *id {label: "bigint, not null"}
    user_id {label: "bigint, not null, FK(users)"}
-   show_tweet_id {label: "bigint, not null, FK(show_tweets)"}
+   tweet_alls_id {label: "bigint, not null, FK(tweet_alls)"}
    created_at {label: "datatime, not null"}
    updated_at {label: "datatime, not null"}
 
  [re_tweets] {bgcolor: "#f5b1aa"}
    *id {label: "bigint, not null"}
    user_id {label: "biginti, not null, FK(users)"}
-   show_tweet_id {label: "bigint, not null, FK(show_tweets)"}
+   tweet_alls_id {label: "bigint, not null, FK(tweet_alls)"}
    re_tweet {label: "bigint, not null"}
    created_at {label: "datatime, not null"}
    updated_at {label: "datatime, not null"}
@@ -70,7 +64,7 @@
    created_at {label: "datatime, not null"}
    updated_at {label: "datatime, not null"}
 
- [dms] {bgcolor: "#f5b1aa"}
+ [direct_messages] {bgcolor: "#f5b1aa"}
    *id {label: "bigint, not null"}
    user_id {label: "bigint, not null, FK(users)"}
    followed_user_id {label: "bigint, not null, FK(follows)"}
@@ -84,16 +78,15 @@
 # 0 or more      *
 # 1 or more      +
 
- emails 1--* users
  users *--1 tweet_posts
- users *--1 show_tweets
+ users *--1 tweet_alls
  users *--1 bookmarks
- bookmarks *--1 show_tweets
- show_tweets *--1 re_tweets
+ bookmarks *--1 tweet_alls
+ tweet_alls *--1 re_tweets
  users *--1 re_tweets
- good_tweets *--1 show_tweets
+ good_tweets *--1 tweet_alls
  users *--1 good_tweets
- users *--1 dms
+ users *--1 direct_messages
  users *--1 follows
- follows *--1 dms
+ follows *--1 direct_messages
  users *--1 announces
