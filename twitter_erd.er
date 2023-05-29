@@ -23,30 +23,21 @@
  [good_tweets] {bgcolor: "#aacf53"}
    *id {label: "bigint, not null"}
    user_id {label: "bigint, not null, FK(users)"}
-   tweet_alls_id {label: "bigint, not null, FK(tweet_alls)"}
-   good_buton {label: "bigint, not null"}
-   created_at {label: "datatime, not null"}
-   updated_at {label: "datatime, not null"}
-
- [tweet_alls] {bgcolor: "#f5b1aa"}
-   *id {label: "bigint, not null"}
-   tweet_id {label: "bigint, not null"}
-   another_user_tweet {label: "varchar(140), not null"}
+   tweets_id {label: "bigint, not null, FK(tweets)"}
    created_at {label: "datatime, not null"}
    updated_at {label: "datatime, not null"}
 
  [bookmarks] {bgcolor: "#aacf53"}
    *id {label: "bigint, not null"}
    user_id {label: "bigint, not null, FK(users)"}
-   tweet_alls_id {label: "bigint, not null, FK(tweet_alls)"}
+   tweets_id {label: "bigint, not null, FK(tweets)"}
    created_at {label: "datatime, not null"}
    updated_at {label: "datatime, not null"}
 
  [re_tweets] {bgcolor: "#f5b1aa"}
    *id {label: "bigint, not null"}
    user_id {label: "biginti, not null, FK(users)"}
-   tweet_alls_id {label: "bigint, not null, FK(tweet_alls)"}
-   re_tweet {label: "bigint, not null"}
+   tweets_id {label: "bigint, not null, FK(tweets)"}
    created_at {label: "datatime, not null"}
    updated_at {label: "datatime, not null"}
 
@@ -67,7 +58,7 @@
  [direct_messages] {bgcolor: "#f5b1aa"}
    *id {label: "bigint, not null"}
    user_id {label: "bigint, not null, FK(users)"}
-   followed_user_id {label: "bigint, not null, FK(follows)"}
+   follows_id{label: "bigint, not null, FK(follows)"}
    mail {label: "varchar, not null"}
    created_at {label: "datatime, not null"}
    updated_at {label: "datatime,not null"}
@@ -78,13 +69,12 @@
 # 0 or more      *
 # 1 or more      +
 
- users *--1 tweets
- users *--1 tweet_alls
- users *--1 bookmarks
- bookmarks *--1 tweet_alls
- tweet_alls *--1 re_tweets
+ users 1--* tweets
+ users 1--* bookmarks
+ bookmarks *--1 tweets
+ tweets *--1 re_tweets
  users *--1 re_tweets
- good_tweets *--1 tweet_alls
+ good_tweets *--1 tweets
  users *--1 good_tweets
  users *--1 direct_messages
  users *--1 follows
