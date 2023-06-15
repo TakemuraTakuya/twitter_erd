@@ -1,82 +1,109 @@
-[users] {bgcolor: "#38a1db"}
+title {label: "twitter Entity-Relationship diagram (condensed)", size: "20"}
+
+# Entities
+
+[users]
+  *id {label: "bigint, not null"}
+  email {label: "varchar, not null, unique"}
+  password {label: "varchar, not null"}
+  tel {label: "varchar"}
+  name {label: "varchar, unique"}
+  display_name {label: "varchar, null"}
+  self_introduction {label: "varchar"}
+  address {label: "varchar"}
+  website {label: "varchar"}
+  birth_date {label: "date"}
+  profile_image {label: "varchar"}
+  avatar_image {label: "varchar"}
+  created_at { label: "datatime, not null"}
+  updated_at { label: "datatime, not null"}
+
+[tweets] {bgcolor: "#ececfc"}
+  *id {label: "bigint, not null"}
+  user_id {label: "int, not null,FK(users)"}
+  text {label: "varchar"}
+  tweet_id {label: "bigint,FK(tweets)"}
+  created_at { label: "datatime, not null"}
+  updated_at { label: "datatime, not null"}
+
+[likes] {bgcolor: "#ececfc"}
+  *id {label: "bigint, not null"}
+  tweet_id {label: "bigint, not null,FK(tweets)"}
+  user_id {label: "int, not null,FK(users)"}
+  created_at { label: "datatime, not null"}
+  updated_at { label: "datatime, not null"}
+
+[re_tweets] {bgcolor: "#ececfc"}
   *id {label: "bigint,not null"}
-  user_email {label: "bigint, not null, uniq"}
-  user_name {label: "varchar,not not null, uniq"}
-  tel_number {label: "bigint, null,uniq"}
-  label_name {label: "varchar, not null"}
-  user_introduction {label: "varchar, null"}
-  user_live {label: "varchar, null"}
-  web_link {label: "varchar, null"}
-  date_of_birth {label: "datatime, not null"}
-  profile_image {label: "BLOB, null"}
-  avatar_image {label: "BLOB, null"}
-  created_at {label: "datatime, not null"}
-  updated_at {label: "datatime, not null"}
+  tweet_id {label: "bigint,FK(tweets)"}
+  user_id {label: "biginit,FK(users)"}
+  created_at { label: "datatime, not null"}
+  updated_at { label: "datatime, not null"}
 
- [tweets] {bgcolor: "#aacf53"}
-   *id {label: "bigint, not null"}
-   user_id {label: "bigint, not null, FK(users)"}
-   tweet {label: "varchar(140), not null"}
-   created_at {label: "datatime, not null" }
-   updated_at {label: "datatime, not null"}
+[relationships] {bgcolor: "#d0e0d0"}
+  *id {label: "bigint, not null"}
+  +follower_id {label: "int, not null,FK(users)"}
+  +followed_id {label: "int, not null,FK(users)"}
+  created_at { label: "datatime, not null"}
+  updated_at { label: "datatime, not null"}
 
- [good_tweets] {bgcolor: "#aacf53"}
-   *id {label: "bigint, not null"}
-   user_id {label: "bigint, not null, FK(users)"}
-   tweets_id {label: "bigint, not null, FK(tweets)"}
-   created_at {label: "datatime, not null"}
-   updated_at {label: "datatime, not null"}
+[notifications] {bgcolor: "#ffffe0"}
+  *id {label: "bigint, not null"}
+  user_id {label: "bigint, not null,FK(users)"}
+  notifiable_type {label: "string, not null, Like or Relationship or Re_tweets"}
+  notifiable_id   {label: "bigint, not null,Like_id or Relationship_id or Re_twets_id"}
+  created_at { label: "datatime, not null"}
+  updated_at { label: "datatime, not null"}
 
- [bookmarks] {bgcolor: "#aacf53"}
-   *id {label: "bigint, not null"}
-   user_id {label: "bigint, not null, FK(users)"}
-   tweets_id {label: "bigint, not null, FK(tweets)"}
-   created_at {label: "datatime, not null"}
-   updated_at {label: "datatime, not null"}
+[bookmarks] {bgcolor: "#ffefd5"}
+  *id {label: "bigint, not null"}
+  user_id {label: "bigint, not null,FK(users)"}
+  tweet_id
+  created_at { label: "datatime, not null"}
+  updated_at { label: "datatime, not null"}
 
- [re_tweets] {bgcolor: "#f5b1aa"}
-   *id {label: "bigint, not null"}
-   user_id {label: "biginti, not null, FK(users)"}
-   tweets_id {label: "bigint, not null, FK(tweets)"}
-   created_at {label: "datatime, not null"}
-   updated_at {label: "datatime, not null"}
+[conversations]
+  *id {label: "bigint, not null"}
+  created_at { label: "datatime, not null"}
+  updated_at { label: "datatime, not null"}
 
- [follows] {bgcolor: "#aacf53"}
-   *id {label: "bigint, not null"}
-   user_id {label: "bigint, not nul, FK(users)"}
-   following_user_id {label: "bigint, not null"}
-   created_at {label: "datatime, not null"}
-   updated_at {label: "datatime, not null"}
+[conversation_users]
+  *id {label: "bigint, not null"}
+  user_id {label: "bigint, not null,FK(users)"}
+  created_at { label: "datatime, not null"}
+  updated_at { label: "datatime, not null"}
 
- [announces] {bgcolor: "#7ebea5"}
-   *id {label: "bigint, not null"}
-   user_id {label: "bigint,not null, FK(users)"}
-   type {label: "varchar, not null"}
-   created_at {label: "datatime, not null"}
-   updated_at {label: "datatime, not null"}
+[messages]
+  *id {label: "bigint, not null"}
+  conversation_id { label: "bigint, not null,FK(convesations)"}
+  user_id {label: "bigint, not null,FK(users)"}
+  body {label: "text, not null"}
+  created_at { label: "datatime, not null"}
+  updated_at { label: "datatime, not null"}
 
- [direct_messages] {bgcolor: "#f5b1aa"}
-   *id {label: "bigint, not null"}
-   user_id {label: "bigint, not null, FK(users)"}
-   follows_id{label: "bigint, not null, FK(follows)"}
-   mail {label: "varchar, not null"}
-   created_at {label: "datatime, not null"}
-   updated_at {label: "datatime,not null"}
+# Relationships
 
-# Cardinality    Syntax
-# 0 or 1         ?
-# exactly 1      1
-# 0 or more      *
-# 1 or more      +
+users  1--* tweets
 
- users 1--* tweets
- users 1--* bookmarks
- bookmarks *--1 tweets
- tweets *--1 re_tweets
- users *--1 re_tweets
- good_tweets *--1 tweets
- users *--1 good_tweets
- users *--1 direct_messages
- users *--1 follows
- follows *--1 direct_messages
- users *--1 announces
+likes  1--* tweets
+likes  1--* users
+
+re_tweets 1--* users
+re_tweets 1--* tweets
+
+users 1--* relationships {label: "following"}
+relationships *--1 users {label: "followed"}
+
+users 1--* notifications
+likes 1--* notifications
+relationships 1--* notifications
+re_tweets 1--* notifications
+
+bookmarks *--1 users
+bookmarks *--1 tweets
+
+conversations 1--* conversation_users
+conversation_users *--1 users
+conversations 1--* messages
+conversations 1--* users
+users 1--* messages
